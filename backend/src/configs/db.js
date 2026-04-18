@@ -1,8 +1,13 @@
 const mongoose = require('mongoose')
-require("dotenv").config()
-module.exports = () => {
-  const uri = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/quizdb';
-  console.log(`🔌 Attempting to connect to: ${uri.includes('localhost') || uri.includes('127.0.0.1') ? 'Local Database (Compass)' : 'External Database (Atlas)'}`);
-  return mongoose.connect(uri);
-}
+const connectDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URI);
+    console.log("MongoDB Connected");
+  } catch (err) {
+    console.error("DB Error:", err);
+    process.exit(1);
+  }
+};
+
+module.exports = connectDB;
 

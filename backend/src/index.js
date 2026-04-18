@@ -1,7 +1,7 @@
 require("dotenv").config();
 
 const express = require('express');
-const connect = require("./configs/db.js");
+const connectDB = require("./configs/db.js");
 const bodyParser = require("body-parser");
 const cors = require('cors');
 
@@ -39,28 +39,10 @@ app.use("/user", user);
 const userResult = require("./controller/userData.controller.js");
 app.use("/userResult", userResult);
 
-// MongoDB connect with retry
-async function connectWithRetry(retries = 5, delay = 3000) {
-    for (let i = 1; i <= retries; i++) {
-        try {
-            await connect();
-            console.log("✅ MongoDB Atlas connected successfully!");
-            return;
-        } catch (error) {
-            console.log(`⚠️  MongoDB connection attempt ${i}/${retries} failed: ${error.message}`);
-            if (i < retries) {
-                console.log(`🔄 Retrying in ${delay / 1000}s...`);
-                await new Promise(res => setTimeout(res, delay));
-            } else {
-                console.log("❌ All MongoDB connection attempts failed.");
-                console.log("👉 Fix: Go to MongoDB Atlas → Network Access → Add your IP address.");
-            }
-        }
-    }
-}
+// Connect to Database
+connectDB();
 
-// Server start — starts regardless of DB connection
+// Server start
 app.listen(Port, "0.0.0.0", function () {
-    console.log(`🚀 Server running on port ${Port}`);
-    connectWithRetry();
+    console.log(`Server running on port ${Port}`);
 });
