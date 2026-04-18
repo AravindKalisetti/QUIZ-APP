@@ -8,7 +8,7 @@ export const NewQuizPage = () => {
 
   const handleAnswer = (index, e, el) => {
     if (clickoption == false) {
-      if (el.answer[0][index] === el.correctAnswer) {
+      if (e.option === el.correctAnswer) {
         setCount(count + 1);
       }
     }
@@ -25,7 +25,7 @@ export const NewQuizPage = () => {
     return pathname === el.title;
   });
 
-  const newfilterquestions = filtertopicwise[0]?.questions;
+  const newfilterquestions = filtertopicwise[0]?.questionArray;
   const dispatch = useDispatch();
 
   const fetchQuizData = () => {
@@ -58,10 +58,10 @@ export const NewQuizPage = () => {
                       </p>
                     </div>
                     <div className="w-10/12 -ml-10">
-                      <p className="text-xl font-normal  ">{el.que}</p>
+                      <p className="text-xl font-normal  ">{el.questions}</p>
                     </div>
                   </div>
-                  {el?.answer[0]?.map((e, index) => {
+                  {el?.options?.map((e, index) => {
                     return (
                       <div className="flex ml-32">
                         <p className="mr-2">{index + 1})</p>
@@ -69,7 +69,7 @@ export const NewQuizPage = () => {
                           className="cursor-pointer hoverOption"
                           onClick={() => handleAnswer(index, e, el)}
                         >
-                          <li className="text-xl li-option-tag">{e}</li>
+                          <li className="text-xl li-option-tag">{e.option}</li>
                           {/* onClick={()=>{handlecount(index)}} */}
                         </div>
                       </div>

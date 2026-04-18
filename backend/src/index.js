@@ -9,7 +9,11 @@ const app = express();
 const Port = process.env.PORT || 5000;
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: "http://13.48.249.24",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -56,7 +60,7 @@ async function connectWithRetry(retries = 5, delay = 3000) {
 }
 
 // Server start — starts regardless of DB connection
-app.listen(Port, function () {
+app.listen(Port, "0.0.0.0", function () {
     console.log(`🚀 Server running on port ${Port}`);
     connectWithRetry();
 });
