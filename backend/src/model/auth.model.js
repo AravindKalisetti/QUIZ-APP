@@ -12,6 +12,6 @@ const userSchema = new mongoose.Schema({
     totalQuizzes: { type: Number, default: 0 },
     quizAttempted: [quizAttemptedSchema],
   })
-  const User = new mongoose.model('User', userSchema)
+  const User = mongoose.model('User', userSchema)
 
   module.exports=User

@@ -1,22 +1,33 @@
 const express = require('express')
 const router = express.Router()
 const User = require("../model/auth.model.js")
+const bcrypt = require("bcryptjs")
+
 
 router.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body
+        console.log("Login Request:", { email });
+
+        if (!email || !password) {
+            return res.status(400).send({ message: "Please enter all fields" })
+        }
+
         const user = await User.findOne({ email: email })
         if (user) {
-            if (password === user.password) {
+            // Compare hashed password
+            const isMatch = await bcrypt.compare(password, user.password);
+            if (isMatch) {
                 console.log("login successfull")
-                res.send({ message: "Login Succesfully", user: user })
+                res.status(200).send({ message: "Login Succesfully", user: user })
             } else {
-                res.send({ message: "Invalid Password" })
+                res.status(401).send({ message: "Invalid Password" })
             }
         } else {
-            res.send({ message: "User Not Regitered " })
+            res.status(404).send({ message: "User Not Registered" })
         }
     } catch (err) {
+        console.error("Login Error:", err);
         res.status(500).send({ message: "Internal Server Error", error: err.message })
     }
 })
@@ -24,19 +35,31 @@ router.post('/login', async (req, res) => {
 router.post('/register', async (req, res) => {
     try {
         const { name, email, password } = req.body
+        console.log("Register Request:", req.body);
+
+        // Validation
+        if (!name || !email || !password) {
+            return res.status(400).send({ message: "Please fill all fields" });
+        }
+
         const user = await User.findOne({ email: email })
         if (user) {
-            res.send({ message: 'User Already Registered' })
+            return res.status(400).send({ message: 'User Already Registered' })
         } else {
+            // Hash password
+            const hashedPassword = await bcrypt.hash(password, 10);
+
             const newUser = new User({
                 name,
                 email,
-                password,
+                password: hashedPassword,
             })
             await newUser.save()
-            res.send({ message: 'Successfully Registered' })
+            console.log("User Saved Successfully:", email);
+            res.status(201).send({ message: 'Successfully Registered' })
         }
     } catch (err) {
+        console.error("Register Error:", err);
         res.status(500).send({ message: "Internal Server Error", error: err.message })
     }
 })

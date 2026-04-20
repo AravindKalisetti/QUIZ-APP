@@ -1,4 +1,5 @@
-require("dotenv").config();
+const path = require("path");
+require("dotenv").config({ path: path.join(__dirname, "../.env") });
 
 const express = require('express');
 const connectDB = require("./configs/db.js");
@@ -10,8 +11,7 @@ const Port = process.env.PORT || 5000;
 
 app.use(express.json());
 app.use(cors({
-  origin: "http://13.48.249.24",
-  methods: ["GET", "POST", "PUT", "DELETE"],
+  origin: ["http://localhost:3000", "http://13.48.249.24"],
   credentials: true
 }));
 app.use(bodyParser.json());

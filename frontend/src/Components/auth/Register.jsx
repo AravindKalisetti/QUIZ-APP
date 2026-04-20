@@ -17,6 +17,7 @@ export const Register = () => {
   const navigate = useNavigate();
   const register = () => {
     const { name, email, password, reEnterPassword } = user;
+    console.log("Submitting Register Form:", { name, email, password });
     if (name && email && password && password === reEnterPassword) {
       axios
         .post(`${API_URL}/register`, user)

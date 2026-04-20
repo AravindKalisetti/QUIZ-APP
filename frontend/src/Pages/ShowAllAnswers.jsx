@@ -19,7 +19,7 @@ export const ShowAllAnswers = () => {
 
           {questionArr?.map((e, index) => {
             return (
-              <div className="h-16 mt-4 border-2 pl-4 ">
+              <div key={index} className="h-16 mt-4 border-2 pl-4 ">
                 <p>
                   {index + 1}) {e.questions}
                 </p>
@@ -33,9 +33,9 @@ export const ShowAllAnswers = () => {
               USER ANSWER
             </h1>
           </div>
-          {resultUser?.map((e) => {
+          {resultUser?.map((e, index) => {
             return (
-              <div className="h-16 mt-4 border-2 text-center red">
+              <div key={index} className="h-16 mt-4 border-2 text-center red">
                 <p>{e}</p>
               </div>
             );
@@ -47,9 +47,9 @@ export const ShowAllAnswers = () => {
               CORRECT ANSWER
             </h1>
           </div>
-          {questionArr?.map((e) => {
+          {questionArr?.map((e, index) => {
             return (
-              <div className="h-16 mt-4 text-center border-2 red">
+              <div key={index} className="h-16 mt-4 text-center border-2 red">
                 <p>{e.correctAnswer}</p>
               </div>
             );
