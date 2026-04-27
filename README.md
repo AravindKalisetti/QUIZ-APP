@@ -42,14 +42,14 @@ ONLINE-QUIZ-GAME/
 ⚙️ Installation & Setup
 1️⃣ Clone the Repository
 git clone https://github.com/your-username/ONLINE-QUIZ-GAME.git
-cd ONLINE-QUIZ-GAME
+cd ONLINE-QUIZ-GAME<br>
 2️⃣ Install Dependencies
 Backend
 cd server
 npm install
 Frontend
 cd client
-npm install
+npm install<br>
 3️⃣ Environment Variables
 
 Create a .env file in the server folder and add:
